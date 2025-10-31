@@ -1,10 +1,6 @@
 # APKEditor GUI
 
 <p align="center">
-  <img src="https://via.placeholder.com/400x100?text=APKEditor+GUI" alt="APKEditor GUI Logo"/>
-</p>
-
-<p align="center">
   <a href="#功能特点">功能特点</a> •
   <a href="#系统要求">系统要求</a> •
   <a href="#安装说明">安装说明</a> •
@@ -152,6 +148,13 @@ python apkeditor_main.py
 ## 许可证
 
 本项目仅供学习和研究使用，请遵守相关法律法规。
+
+## 鸣谢
+
+感谢以下开源项目的贡献：
+
+- <a href="https://github.com/TechnoIndian/RKPairip" target="_blank">TechnoIndian/RKPairip</a>
+- <a href="https://github.com/REAndroid/APKEditor" target="_blank">REAndroid/APKEditor</a>
 
 ---
 
