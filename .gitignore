@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build outputs
+build/
+dist/
+*.spec
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Virtual environments
+venv/
+env/
+
+# Temporary files
+*.tmp
+*.temp
+
+# JARs (keep the main one but ignore others)
+!/lib/APKEditor-1.4.5.jar
+/lib/*.jar
+
+# Keystore files
+keystore/
+*.keystore
+*.jks
+
+# Generated icons
+generated_icons/
+
+# Signing keys and configs
+key.ini
+
+# Pairip CoreX
+*.so

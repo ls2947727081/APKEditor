@@ -14,6 +14,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# 获取应用根目录，支持PyInstaller打包
+def get_app_root():
+    # PyInstaller打包后会设置_MEIPASS属性
+    if hasattr(sys, '_MEIPASS'):
+        return sys._MEIPASS
+    # 正常运行时返回当前脚本所在目录
+    return os.path.dirname(os.path.abspath(__file__))
+
 # 添加当前目录到Python路径，确保可以导入apkeditor包
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,11 +31,23 @@ def main():
         # 尝试导入PyQt5
         from PyQt5.QtWidgets import QApplication
         from PyQt5.QtCore import Qt
+        from PyQt5.QtGui import QIcon
         
         # 设置应用程序信息
         app = QApplication(sys.argv)
         app.setApplicationName("APKEditor")
         app.setApplicationVersion("1.4.5")
+        
+        # 设置应用程序图标
+        app_root = get_app_root()
+        app_icon_path = os.path.join(app_root, 'generated_icons', 'tag.ico')
+        if os.path.exists(app_icon_path):
+            app.setWindowIcon(QIcon(app_icon_path))
+            logger.info(f"已设置应用程序图标: {app_icon_path}")
+            print(f"已设置应用程序图标: {app_icon_path}")
+        else:
+            logger.warning(f"未找到图标文件: {app_icon_path}")
+            print(f"未找到图标文件: {app_icon_path}")
         
         # 设置应用程序样式
         try:

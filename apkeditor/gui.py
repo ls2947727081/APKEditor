@@ -6,6 +6,7 @@ import sys
 import configparser
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLabel, QPushButton
 from PyQt5.QtCore import QProcess, Qt, QThread
+from PyQt5.QtGui import QIcon
 
 # 导入命令处理器
 from .command_handler import CommandHandler
@@ -27,6 +28,14 @@ except ImportError as e:
     print(f"导入PairipHandler失败: {str(e)}")
     PairipHandler = None
 
+# 获取应用根目录，支持PyInstaller打包
+def get_app_root():
+    # PyInstaller打包后会设置_MEIPASS属性
+    if hasattr(sys, '_MEIPASS'):
+        return sys._MEIPASS
+    # 正常运行时返回当前脚本所在目录的父目录
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 class APKEditorGUI(QMainWindow):
     """APKEditor GUI主窗口类"""
@@ -36,6 +45,21 @@ class APKEditorGUI(QMainWindow):
         self.setWindowTitle("APKEditor GUI — 封装 APKEditor-1.4.5.jar")
         # 增大默认窗口大小
         self.resize(1200, 800)
+        
+        # 设置窗口图标
+        app_root = get_app_root()
+        icon_paths = [
+            os.path.join(app_root, 'generated_icons', 'tag.ico'),
+            os.path.join(app_root, 'generated_icons', 'tmp_64.png'),
+            os.path.join(app_root, 'generated_icons', 'tmp_32.png')
+        ]
+        
+        for icon_path in icon_paths:
+            if os.path.exists(icon_path):
+                self.setWindowIcon(QIcon(icon_path))
+                print(f"已设置窗口图标: {icon_path}")
+                break
+        
         self.process = QProcess(self)
         self.process.readyReadStandardOutput.connect(self._on_stdout)
         self.process.readyReadStandardError.connect(self._on_stderr)
@@ -47,7 +71,7 @@ class APKEditorGUI(QMainWindow):
         self.copy_action = None
         
         # 密钥配置文件路径
-        self.key_config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib', 'key.ini')
+        self.key_config_path = os.path.join(get_app_root(), 'lib', 'key.ini')
         
         try:
             # 使用模块的setup_ui函数
